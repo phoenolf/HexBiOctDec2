@@ -400,13 +400,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                                             ValueInput = findViewById(R.id.ValueInput)
 
 
-                                            //                 var int: Long = "$test".toLong()
 
-
-                                            //       var Norint: Int = int.toInt()
-
-                                            //              Octal.text = convertOctalToDecimal(Norint).toString()
                                             Octal.text = parseInt(ValueInput.text.toString(), 8).toString()
+
+                                            Decimal.text = parseInt(ValueInput.text.toString(), 10).toString()
+
+                                            val OctDec = Octal.text.toString().toInt()
+
+                                            Binary.text = Integer.toBinaryString(OctDec)
+
+
+                                            Hexdecimal.text = Integer.toHexString(OctDec)
+
 
                                             println("process is at convert")
                                             ValueInput.text.clear()
@@ -462,10 +467,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                                         Decimal.text = parseInt(ValueInput.text.toString(), 10).toString()
 
                                         val BinDec = Decimal.text.toString().toInt()
+                                        Octal.text = Integer.toOctalString(BinDec)
 
                                         Binary.text = Integer.toBinaryString(BinDec)
 
-                                        Octal.text = Integer.toOctalString(BinDec)
 
                                         Hexdecimal.text = Integer.toHexString(BinDec)
 
