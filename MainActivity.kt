@@ -74,10 +74,6 @@ import android.text.InputFilter
 import android.text.method.DigitsKeyListener
 import android.view.KeyEvent
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
 
 import android.app.Activity
 import android.support.annotation.NonNull
@@ -89,7 +85,9 @@ import android.R.attr.inputType
 import android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
 import android.text.InputType
 import android.R.attr.password
+import android.content.Intent
 import android.text.TextUtils
+import android.widget.*
 import java.io.Console
 import java.lang.Integer.parseInt
 import java.util.regex.Pattern
@@ -221,6 +219,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         println("Found: $isFound")
 
         Toast.makeText(applicationContext, "Please choose a numerical system", Toast.LENGTH_LONG).show()
+
+        val AboutMeClick = findViewById(R.id.AboutMe) as ImageView
+        // set on-click listener
+        AboutMeClick.setOnClickListener {
+            // your code to perform when the user clicks on the ImageView
+            Toast.makeText(this@MainActivity, "You clicked on ImageView.", Toast.LENGTH_SHORT).show()
+            var i = Intent(this@MainActivity, AboutUsActivity::class.java)
+startActivity(i)
+        }
 
 
         val myClicklistner = object : View.OnClickListener {
