@@ -79,12 +79,12 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 
-import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.util.Log;
+import android.app.Activity
+import android.support.annotation.NonNull
+import android.util.Log
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList
+import java.util.List
 import android.R.attr.inputType
 import android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
 import android.text.InputType
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var Dec: Button
 
 
-    inline fun String.toInt(): Int = java.lang.Integer.parseInt(this)
+    private inline fun String.toInt(): Int = java.lang.Integer.parseInt(this)
 
     private inline fun Int.toUnsignedInt(): Int = this and 0xFF
 
@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         return octalNumber
     }
 
-    fun convertOctalToDecimal(octal: Int): Int {
+    private fun convertOctalToDecimal(octal: Int): Int {
         var octal = octal
         var decimalNumber = 0
         var i = 0
@@ -191,14 +191,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     fun toBinary(decimalNumber: Long, binaryString: String = ""): String {
         while (decimalNumber > 0) {
-            val temp = "${binaryString}${decimalNumber % 2}"
+            val temp = "$binaryString${decimalNumber % 2}"
             return toBinary(decimalNumber / 2, temp)
         }
         return binaryString.reversed()
     }
 
 
-    fun pow(base: Int, exponent: Int) = Math.pow(base.toDouble(), exponent.toDouble()).toInt()
+    private fun pow(base: Int, exponent: Int) = Math.pow(base.toDouble(), exponent.toDouble()).toInt()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -213,7 +213,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         Hex = findViewById(R.id.Hex)
         Oct = findViewById(R.id.Oct)
         Dec = findViewById(R.id.Dec)
+        ValueInput.inputType = 1
 
+        val thePattern = "[^A-Za-z0-9]+"
+        val theInput = ValueInput.text.toString()
+        val isFound = Pattern.compile(thePattern).matcher(theInput).find()
+        println("Found: $isFound")
 
         Toast.makeText(applicationContext, "Please choose a numerical system", Toast.LENGTH_LONG).show()
 
@@ -221,6 +226,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val myClicklistner = object : View.OnClickListener {
             override fun onClick(test: View?) {
 
+                ValueInput.text.clear()
 
                 println("process is at main area")
 
@@ -231,10 +237,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     R.id.Bin -> {
 
                         Toast.makeText(applicationContext, "You have chosen the binary numerical system", Toast.LENGTH_SHORT).show()
+                        Octal.text = null
+                        Hexdecimal.text = null
+                        Binary.text = null
+                        Decimal.text = null
 
                         ValueInput = findViewById(R.id.ValueInput)
 
-ValueInput.setKeyListener(DigitsKeyListener.getInstance("01"))
+                        ValueInput.keyListener = DigitsKeyListener.getInstance("01")
                         println("process is at bin")
 
                         val myListener = object : View.OnClickListener {
@@ -244,10 +254,10 @@ ValueInput.setKeyListener(DigitsKeyListener.getInstance("01"))
                                 when (longtest?.id) {
 
                                     R.id.Convert -> {
-                                        if (TextUtils.isEmpty(ValueInput.getText().toString()))
+                                        if (TextUtils.isEmpty(ValueInput.text.toString()))
                                         {
-                                            ValueInput.setError("This item cannot be empty.");
-                                            return;
+                                            ValueInput.error = "This item cannot be empty."
+                                            return
                                         }
                                         ValueInput = findViewById(R.id.ValueInput)
 
@@ -255,9 +265,8 @@ ValueInput.setKeyListener(DigitsKeyListener.getInstance("01"))
                                         val test = ValueInput.text
 
 
-                            //            Binary.text = toBinary(int)   // max value 128 and doesnt show negative values
                                         println("process is at convert")
-                                        Binary.text = parseInt(ValueInput.text.toString(),2).toString();
+                                        Binary.text = parseInt(ValueInput.text.toString(),2).toString()
 
                                         ValueInput.text.clear()
 
@@ -275,17 +284,21 @@ ValueInput.setKeyListener(DigitsKeyListener.getInstance("01"))
 
 
                 when (test?.id) { R.id.Hex -> {
-                    var placeholder = ValueInput.getText().toString()
+                    var placeholder = ValueInput.text.toString()
 
-                    ValueInput.setInputType(1)
-
-
+                    ValueInput.inputType = 1
 
 
+                    Octal.text = null
+                    Hexdecimal.text = null
+                    Binary.text = null
+                    Decimal.text = null
 
 
 
-                  Toast.makeText(applicationContext, "You have chosen the hexdecimal numerical system", Toast.LENGTH_SHORT).show()
+
+
+                    Toast.makeText(applicationContext, "You have chosen the hexdecimal numerical system", Toast.LENGTH_SHORT).show()
 
 
                     val myListener = object : View.OnClickListener {
@@ -296,14 +309,7 @@ ValueInput.setKeyListener(DigitsKeyListener.getInstance("01"))
 
                                 R.id.Convert -> {
 //
-//                                    val p = Pattern.compile("[^a-f0-9 ]", Pattern.CASE_INSENSITIVE)
-//                                    val m = p.matcher("I am a string")
-//                                    val b = m.find()
 //
-//                                    if (b) {
-//
-//                                        println("There is a special character in my string")
-//                                    }
 
 
                                     val thePattern = "[^A-Fa-f0-9]+"
@@ -312,23 +318,36 @@ ValueInput.setKeyListener(DigitsKeyListener.getInstance("01"))
                                     println("Found: $isFound")
 
 
-                                    val      view1 = ValueInput.getText().toString();
+                                    val      view1 = ValueInput.text.toString()
 
                                     if (isFound == true)
                                     {
-                                        Toast.makeText(applicationContext, "Incorrect input, please try again", Toast.LENGTH_SHORT).show()
-return                                    }
 
-                                    else {
+                                        ValueInput.error = "This item cannot be empty"
+
+                                        return
+
+                                    }
+
+                                    else if (ValueInput.text.isNullOrEmpty())
+
+                                    {
+                                        ValueInput.error = "This item cannot be empty"
+
+
+                                    }
+
+
+                                    else
+
+                                    {
                                         ValueInput = findViewById(R.id.ValueInput)
 
 
-                                        val test = ValueInput.text
 
 
 
-                                       // Hexdecimal.text = convertHexStringToByteArray().toString()
-                                        Hexdecimal.text = parseInt(ValueInput.text.toString(),16).toString();
+                                        Hexdecimal.text = parseInt(ValueInput.text.toString(),16).toString()
 
 
 
@@ -354,11 +373,13 @@ return                                    }
 
                         Toast.makeText(applicationContext, "You have chosen the octal numerical system", Toast.LENGTH_SHORT).show()
 
-                        ValueInput.setKeyListener(DigitsKeyListener.getInstance("01234567"))
+                        ValueInput.keyListener = DigitsKeyListener.getInstance("01234567")
 
                         Octal.text = null
                         Hexdecimal.text = null
                         Binary.text = null
+                        Decimal.text = null
+
 
 
                         val myListener = object : View.OnClickListener {
@@ -368,22 +389,30 @@ return                                    }
                                 when (longtest?.id) {
 
                                     R.id.Convert -> {
+                                        if (TextUtils.isEmpty(ValueInput.text.toString()))
+                                        {
+                                            ValueInput.error = "This item cannot be empty."
+                                            return
+                                        }
 
-                                        ValueInput = findViewById(R.id.ValueInput)
+                                        else {
 
-                                        val test = ValueInput.text
-
-                       //                 var int: Long = "$test".toLong()
+                                            ValueInput = findViewById(R.id.ValueInput)
 
 
-                                 //       var Norint: Int = int.toInt()
+                                            //                 var int: Long = "$test".toLong()
 
-                          //              Octal.text = convertOctalToDecimal(Norint).toString()
-                                        Octal.text = parseInt(ValueInput.text.toString(),8).toString();
 
-                                        println("process is at convert")
-                                        ValueInput.text.clear()
+                                            //       var Norint: Int = int.toInt()
 
+                                            //              Octal.text = convertOctalToDecimal(Norint).toString()
+                                            Octal.text = parseInt(ValueInput.text.toString(), 8).toString()
+
+                                            println("process is at convert")
+                                            ValueInput.text.clear()
+
+
+                                        }
                                     }
 
                                 }
@@ -395,6 +424,65 @@ return                                    }
 
 
                     }
+
+
+
+
+                    R.id.Dec -> {
+
+                        Toast.makeText(applicationContext, "You have chosen the decimal numerical system", Toast.LENGTH_SHORT).show()
+
+                        ValueInput.keyListener = DigitsKeyListener.getInstance("0123456789")
+
+                        Octal.text = null
+                        Hexdecimal.text = null
+                        Binary.text = null
+                        Decimal.text = null
+
+
+
+                        val myListener = View.OnClickListener { longtest ->
+                            when (longtest?.id) {
+
+                                R.id.Convert -> {
+                                    if (TextUtils.isEmpty(ValueInput.text.toString())) {
+                                        ValueInput.error = "This item cannot be empty."
+                                        return@OnClickListener
+                                    } else {
+
+                                        ValueInput = findViewById(R.id.ValueInput)
+
+
+                                        //                 var int: Long = "$test".toLong()
+
+
+                                        //       var Norint: Int = int.toInt()
+
+                                        //              Octal.text = convertOctalToDecimal(Norint).toString()
+                                        Decimal.text = parseInt(ValueInput.text.toString(), 10).toString()
+
+                                        val BinDec = Decimal.text.toString().toInt()
+
+                                        Binary.text = Integer.toBinaryString(BinDec)
+
+                                        Octal.text = Integer.toOctalString(BinDec)
+
+                                        Hexdecimal.text = Integer.toHexString(BinDec)
+
+                                        println("process is at convert")
+                                        ValueInput.text.clear()
+
+
+                                    }
+                                }
+
+                            }
+                        }
+                        Convert.setOnClickListener(myListener)
+
+
+                    }
+
 
 
                 }
@@ -425,7 +513,6 @@ return                                    }
         val decimall = "$test".toInt()
 
         val octall = convertDecimalToOctal(decimall)
-
 
         Decimal.text = toDecimal("$test").toString()
 
