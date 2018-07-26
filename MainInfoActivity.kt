@@ -17,7 +17,7 @@ class MainInfoActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_info)
 
-        val DecClick = findViewById<ImageView>(R.id.imageView8)
+        val DecClick = findViewById<ImageView>(R.id.DecInfo)
         // set on-click listener
         DecClick.setOnClickListener {
             val fragment = DecimalFragment()
@@ -26,19 +26,37 @@ class MainInfoActivity : Activity() {
             transaction.addToBackStack(null)  // this will manage backstack
             transaction.commit()
         }
-
-
+        val BinClick = findViewById<ImageView>(R.id.BinInfo)
+        // set on-click listener
+        BinClick.setOnClickListener {
+            val fragment = BinaryFragment()
+            val transaction = fragmentManager.beginTransaction()
+            transaction.replace(R.id.NumStore, fragment) // fragment container id in first parameter is the  container(Main layout id) of Activity
+            transaction.addToBackStack(null)  // this will manage backstack
+            transaction.commit()
+        }
+        val HexClick = findViewById<ImageView>(R.id.HexInfo)
+        // set on-click listener
+        HexClick.setOnClickListener {
+            val fragment = HexadecimalFragment()
+            val transaction = fragmentManager.beginTransaction()
+            transaction.replace(R.id.NumStore, fragment) // fragment container id in first parameter is the  container(Main layout id) of Activity
+            transaction.addToBackStack(null)  // this will manage backstack
+            transaction.commit()
+        }
+        val OctClick = findViewById<ImageView>(R.id.OctInfo)
+        // set on-click listener
+        OctClick.setOnClickListener {
+            val fragment = OctalFragment()
+            val transaction = fragmentManager.beginTransaction()
+            transaction.replace(R.id.NumStore, fragment) // fragment container id in first parameter is the  container(Main layout id) of Activity
+            transaction.addToBackStack(null)  // this will manage backstack
+            transaction.commit()
+        }
 
     }
 
 
-    fun loadDecimalFrag()
-
-    {
-
-
-
-    }
 
 
 }
