@@ -230,6 +230,14 @@ startActivity(i)
         }
 
 
+        val NumSysClick = findViewById(R.id.NumSys) as ImageView
+        // set on-click listener
+        AboutMeClick.setOnClickListener {
+            // your code to perform when the user clicks on the ImageView
+            Toast.makeText(this@MainActivity, "You clicked on ImageView.", Toast.LENGTH_SHORT).show()
+            var i = Intent(this@MainActivity, MainInfoActivity::class.java)
+            startActivity(i)
+        }
         val myClicklistner = object : View.OnClickListener {
             override fun onClick(test: View?) {
 
