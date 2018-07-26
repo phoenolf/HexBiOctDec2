@@ -1,8 +1,6 @@
 package phoenlf.application.com.hexbioctdec
 
-/*
-import android.text.TextUtils
-import android.text.method.DigitsKeyListener
+
 import android.text.TextUtils
 import android.text.method.DigitsKeyListener
 import android.view.View
@@ -10,70 +8,30 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import android.view.View
 import android.view.Window
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.text.TextUtils
-import android.text.method.DigitsKeyListener
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
 
-import android.text.TextUtils
-import android.text.method.DigitsKeyListener
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.content.Context
+import android.graphics.BitmapFactory
+import android.support.v4.view.GravityCompat
+import android.support.v7.app.ActionBarDrawerToggle
+import android.view.*
+import android.widget.*
+import kotlinx.android.synthetic.main.activity_main.*
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import kotlinx.android.synthetic.main.activity_main.*
+import android.content.Intent.getIntent
+import android.widget.GridView
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemClickListener
 
-import android.text.TextUtils
-import android.text.method.DigitsKeyListener
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
-import android.text.TextUtils
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
-import android.text.TextUtils
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
-import android.text.TextUtils
-import android.text.method.DigitsKeyListener
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
-
-import android.text.TextUtils
-import android.text.method.DigitsKeyListener
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
-
-*/
 
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.InputFilter
-import android.text.method.DigitsKeyListener
 import android.view.KeyEvent
-import android.view.View
 
 import android.app.Activity
 import android.support.annotation.NonNull
@@ -86,8 +44,11 @@ import android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
 import android.text.InputType
 import android.R.attr.password
 import android.content.Intent
-import android.text.TextUtils
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.widget.*
+import kotlinx.android.synthetic.main.activity_main_info.*
 import java.io.Console
 import java.lang.Integer.parseInt
 import java.util.regex.Pattern
@@ -126,8 +87,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         return result
     }
-
-
 
 
     fun convertByteArrayToHexString() {
@@ -225,18 +184,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         AboutMeClick.setOnClickListener {
             // your code to perform when the user clicks on the ImageView
             Toast.makeText(this@MainActivity, "You clicked on ImageView.", Toast.LENGTH_SHORT).show()
-            var i = Intent(this@MainActivity, AboutUsActivity::class.java)
-startActivity(i)
+
         }
 
 
         val NumSysClick = findViewById(R.id.NumSys) as ImageView
         // set on-click listener
-        AboutMeClick.setOnClickListener {
+        NumSysClick.setOnClickListener {
             // your code to perform when the user clicks on the ImageView
             Toast.makeText(this@MainActivity, "You clicked on ImageView.", Toast.LENGTH_SHORT).show()
             var i = Intent(this@MainActivity, MainInfoActivity::class.java)
             startActivity(i)
+
         }
         val myClicklistner = object : View.OnClickListener {
             override fun onClick(test: View?) {
@@ -269,8 +228,7 @@ startActivity(i)
                                 when (longtest?.id) {
 
                                     R.id.Convert -> {
-                                        if (TextUtils.isEmpty(ValueInput.text.toString()))
-                                        {
+                                        if (TextUtils.isEmpty(ValueInput.text.toString())) {
                                             ValueInput.error = "This item cannot be empty."
                                             return
                                         }
@@ -281,7 +239,7 @@ startActivity(i)
 
 
                                         println("process is at convert")
-                                        Binary.text = parseInt(ValueInput.text.toString(),2).toString()
+                                        Binary.text = parseInt(ValueInput.text.toString(), 2).toString()
 
                                         ValueInput.text.clear()
 
@@ -333,36 +291,26 @@ startActivity(i)
                                     println("Found: $isFound")
 
 
-                                    val      view1 = ValueInput.text.toString()
+                                    val view1 = ValueInput.text.toString()
 
-                                    if (isFound == true)
-                                    {
+                                    if (isFound == true) {
 
                                         ValueInput.error = "This item cannot be empty"
 
                                         return
 
-                                    }
-
-                                    else if (ValueInput.text.isNullOrEmpty())
-
-                                    {
+                                    } else if (ValueInput.text.isNullOrEmpty()) {
                                         ValueInput.error = "This item cannot be empty"
 
 
-                                    }
-
-
-                                    else
-
-                                    {
+                                    } else {
                                         ValueInput = findViewById(R.id.ValueInput)
 
 
 
 
 
-                                        Hexdecimal.text = parseInt(ValueInput.text.toString(),16).toString()
+                                        Hexdecimal.text = parseInt(ValueInput.text.toString(), 16).toString()
 
 
 
@@ -396,7 +344,6 @@ startActivity(i)
                         Decimal.text = null
 
 
-
                         val myListener = object : View.OnClickListener {
 
                             override fun onClick(longtest: View?) {
@@ -404,13 +351,10 @@ startActivity(i)
                                 when (longtest?.id) {
 
                                     R.id.Convert -> {
-                                        if (TextUtils.isEmpty(ValueInput.text.toString()))
-                                        {
+                                        if (TextUtils.isEmpty(ValueInput.text.toString())) {
                                             ValueInput.error = "This item cannot be empty."
                                             return
-                                        }
-
-                                        else {
+                                        } else {
 
                                             ValueInput = findViewById(R.id.ValueInput)
 
@@ -446,8 +390,6 @@ startActivity(i)
                     }
 
 
-
-
                     R.id.Dec -> {
 
                         Toast.makeText(applicationContext, "You have chosen the decimal numerical system", Toast.LENGTH_SHORT).show()
@@ -458,7 +400,6 @@ startActivity(i)
                         Hexdecimal.text = null
                         Binary.text = null
                         Decimal.text = null
-
 
 
                         val myListener = View.OnClickListener { longtest ->
@@ -504,7 +445,6 @@ startActivity(i)
                     }
 
 
-
                 }
 
             }
@@ -546,6 +486,7 @@ startActivity(i)
         Hexdecimal.text = byteArrayToHexString(array)
 
     }
+
 }
 
 /*
